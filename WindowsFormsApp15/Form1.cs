@@ -13,24 +13,23 @@ namespace WindowsFormsApp15
 {
     public partial class Form1 : Form
     {
-        private void ReadAllFiles (string path)
+        private Image[] ReadAllFiles (string path)
         {
-            string[] imageFileNames = Directory.GetFiles(path);
+            string[] imageFileNames = Directory.GetFiles(path, "*.jpg", SearchOption.AllDirectories);
             Image[] images = new Image[imageFileNames.Length];
             for (int i = 0; i < images.Length; i++)
             {
                 images[i] = Image.FromFile(imageFileNames[i]); 
             }
-            
+            return images;
         }
 
-        private void FillDataGridView(Image[] images, string path)
+        private DataGridView FillDataGridView(Image[] images)
         {
             DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
             dataGridView1.Columns.Add(imageColumn);
             imageColumn.Name = "imageColumn";
             imageColumn.Width = 200;
-            images[] = ReadAllFiles(path);
             dataGridView1.RowCount = images.Length;
             for (int i = 0; i < images.Length; i++)
             {
@@ -39,6 +38,8 @@ namespace WindowsFormsApp15
             }
             dataGridView1.ColumnHeadersVisible = false;
             dataGridView1.RowHeadersVisible = false;
+                
+                return dataGridView1;
         }
 
         public Form1()
@@ -46,7 +47,7 @@ namespace WindowsFormsApp15
 
             InitializeComponent();
 
-            Image[] images = ReadAllFiles(@"C:\Users\Юлия\Desktop\algo\images", "*.jpg", SearchOption.AllDirectories)
+            Image[] images = ReadAllFiles(@"C:\Users\Юлия\Desktop\algo\images");
             FillDataGridView(images);
 
         }
@@ -55,8 +56,6 @@ namespace WindowsFormsApp15
         {
 
             //DataGridViewImageCell cell = (DataGridViewImageCell) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            
-            
 
             //Form2 form2 = new Form2(a);
             //form2.Parent = this.Parent;
