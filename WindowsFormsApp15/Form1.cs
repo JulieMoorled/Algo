@@ -13,33 +13,37 @@ namespace WindowsFormsApp15
 {
     public partial class Form1 : Form
     {
-        private Image[] ReadAllFiles (string path)
+        private List<(string, Image)> imagesAndPaths = new List<(string, Image)>();
+
+        private void ReadAllFiles (string path)
         {
+            
             string[] imageFileNames = Directory.GetFiles(path, "*.jpg", SearchOption.AllDirectories);
-            Image[] images = new Image[imageFileNames.Length];
-            for (int i = 0; i < images.Length; i++)
+            for (int i = 0; i < imageFileNames.Length; i++)
             {
-                images[i] = Image.FromFile(imageFileNames[i]); 
+               string fileName = Path.GetFileName(imageFileNames[i]);
+               Image image = Image.FromFile(imageFileNames[i]);
+               (string, Image) tuple = (name:fileName, image:image);
+               imagesAndPaths.Add(tuple);
             }
-            return images;
         }
 
-        private DataGridView FillDataGridView(Image[] images)
+        private void FillDataGridView(List <(string, Image)> imagesAndPaths)
         {
             DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
             dataGridView1.Columns.Add(imageColumn);
             imageColumn.Name = "imageColumn";
             imageColumn.Width = 200;
-            dataGridView1.RowCount = images.Length;
-            for (int i = 0; i < images.Length; i++)
+
+            dataGridView1.RowCount = imagesAndPaths.Count;
+            for (int i = 0; i < imagesAndPaths.Count; i++)
             {
                 dataGridView1.Rows[i].Height = 200;
-                dataGridView1.Rows[i].Cells["imageColumn"].Value = images[i];
+                dataGridView1.Rows[i].Cells["imageColumn"].Value = imagesAndPaths[i][1];
             }
             dataGridView1.ColumnHeadersVisible = false;
             dataGridView1.RowHeadersVisible = false;
                 
-                return dataGridView1;
         }
 
         public Form1()
@@ -47,7 +51,9 @@ namespace WindowsFormsApp15
 
             InitializeComponent();
 
-            Image[] images = ReadAllFiles(@"C:\Users\Юлия\Desktop\algo\images");
+            string path = (@"C:\Users\Юлия\Desktop\algo\images");
+            
+            Image[] images = ReadAllFiles(path);
             FillDataGridView(images);
 
         }
@@ -55,7 +61,9 @@ namespace WindowsFormsApp15
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            //DataGridViewImageCell cell = (DataGridViewImageCell) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            DataGridViewImageCell cell = (DataGridViewImageCell) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            
+            
 
             //Form2 form2 = new Form2(a);
             //form2.Parent = this.Parent;
