@@ -12,7 +12,7 @@ namespace WindowsFormsApp15
 {
     public partial class Form2 : Form
     {
-        public Form2(Image algo)
+        public Form2(Image selectedImage)
         {
 
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace WindowsFormsApp15
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 
             pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.jpg");
-            pictureBox2.Image = algo;
+            pictureBox2.Image = selectedImage;
 
             label1.Text = "Username";
             label1.Font = new Font("Century Gothic", 14.0F);

@@ -23,12 +23,12 @@ namespace WindowsFormsApp15
             {
                string fileName = Path.GetFileName(imageFileNames[i]);
                Image image = Image.FromFile(imageFileNames[i]);
-               (string, Image) tuple = (name:fileName, image:image);
+               (string, Image) tuple = (fileName, image);
                imagesAndPaths.Add(tuple);
             }
         }
 
-        private void FillDataGridView(List <(string, Image)> imagesAndPaths)
+        private void FillDataGridView(List<(string, Image)> imagesAndPaths)
         {
             DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
             dataGridView1.Columns.Add(imageColumn);
@@ -39,7 +39,7 @@ namespace WindowsFormsApp15
             for (int i = 0; i < imagesAndPaths.Count; i++)
             {
                 dataGridView1.Rows[i].Height = 200;
-                dataGridView1.Rows[i].Cells["imageColumn"].Value = imagesAndPaths[i][1];
+                dataGridView1.Rows[i].Cells["imageColumn"].Value = imagesAndPaths[i].Item2;
             }
             dataGridView1.ColumnHeadersVisible = false;
             dataGridView1.RowHeadersVisible = false;
@@ -53,8 +53,8 @@ namespace WindowsFormsApp15
 
             string path = (@"C:\Users\Юлия\Desktop\algo\images");
             
-            Image[] images = ReadAllFiles(path);
-            FillDataGridView(images);
+            ReadAllFiles(path);
+            FillDataGridView(imagesAndPaths);
 
         }
 
@@ -62,12 +62,18 @@ namespace WindowsFormsApp15
         {
 
             DataGridViewImageCell cell = (DataGridViewImageCell) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            
-            
 
-            //Form2 form2 = new Form2(a);
-            //form2.Parent = this.Parent;
-            //form2.Show();
+            Image selectedImage;
+            
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (cell.RowIndex == i)
+                    selectedImage = Image.FromFile(imagesAndPaths[i].Item1);
+            }
+
+            Form2 form2 = new Form2(selectedImage);
+            form2.Parent = this.Parent;
+            form2.Show();
 
         }
 
