@@ -63,7 +63,8 @@ namespace WindowsFormsApp15
 
             DataGridViewImageCell cell = (DataGridViewImageCell) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-            Image selectedImage;
+            Image selectedImage; 
+            
             
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
