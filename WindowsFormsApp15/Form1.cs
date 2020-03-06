@@ -62,17 +62,11 @@ namespace WindowsFormsApp15
         {
 
             DataGridViewImageCell cell = (DataGridViewImageCell) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-
-            Image selectedImage; 
             
-            
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                if (cell.RowIndex == i)
-                    selectedImage = Image.FromFile(imagesAndPaths[i].Item1);
-            }
-
-            Form2 form2 = new Form2(selectedImage);
+             Image selectedImage = imagesAndPaths[cell.RowIndex].Item2;
+             string selectedImageName = imagesAndPaths[cell.RowIndex].Item1;
+                    
+            Form2 form2 = new Form2(selectedImage, selectedImageName);
             form2.Parent = this.Parent;
             form2.Show();
 

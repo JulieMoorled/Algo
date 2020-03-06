@@ -12,7 +12,7 @@ namespace WindowsFormsApp15
 {
     public partial class Form2 : Form
     {
-        public Form2(Image selectedImage)
+        public Form2(Image selectedImage, string selectedImageName)
         {
 
             InitializeComponent();
@@ -22,10 +22,16 @@ namespace WindowsFormsApp15
 
             pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.jpg");
             pictureBox2.Image = selectedImage;
+            
 
             label1.Text = "Username";
             label1.Font = new Font("Century Gothic", 14.0F);
 
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
