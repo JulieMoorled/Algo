@@ -13,31 +13,36 @@ using System.Text.Json;
 namespace WindowsFormsApp15
 {
 
+    //pls
+    
+    public class User
+    {
+        private string username; 
+        private Image userpic;
+
+        public User(string username, Image userpic)
+        {
+            this.username = username;
+            this.userpic = userpic;
+        }
+    }
+    
     public class Comment
     {
         private DateTime date;
-        public class User
-        {
-            private string username; 
-            private Image userpic;
-
-            public User(string username, Image userpic)
-            {
-                this.username = username;
-                this.userpic = userpic;
-            }
-        }
         private string text;
+        private User user;
 
-        public Comment(DateTime date, string text)
+        public Comment(DateTime date, string text, User user)
         {
             this.date = date;
             this.text = text;
+            this.user = user;
         }
     }
     
 
-    public class Comments
+    public class CommentManager 
     {
         
         private List <Comment> comments = new List<Comment>();
@@ -46,7 +51,7 @@ namespace WindowsFormsApp15
         {
             using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
             {
-                Comments comment = await JsonSerializer.DeserializeAsync<Comments>(fs);
+                CommentManager comment = await JsonSerializer.DeserializeAsync<CommentManager>(fs);
             }
         }
 
@@ -57,7 +62,7 @@ namespace WindowsFormsApp15
 
         public void AddComment()
         {
-            Comments newComment = new Comments();
+            CommentManager newComment = new CommentManager();
             // text = Form2.textBox1.Text;
             // date = DateTime.Now;
             comments.Add(newComment);
