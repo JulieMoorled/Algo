@@ -13,21 +13,20 @@ using System.Text.Json;
 namespace WindowsFormsApp15
 {
 
-    public class User
-    {
-        private string username;
-        private Image userpic;
-
-        public User(string username, Image userpic)
-        {
-            this.username = username;
-            this.userpic = userpic;
-        }
-    }
-
-    public class Comment: User
+    public class Comment
     {
         private DateTime date;
+        public class User
+        {
+            private string username; 
+            private Image userpic;
+
+            public User(string username, Image userpic)
+            {
+                this.username = username;
+                this.userpic = userpic;
+            }
+        }
         private string text;
 
         public Comment(DateTime date, string text)
@@ -35,7 +34,21 @@ namespace WindowsFormsApp15
             this.date = date;
             this.text = text;
         }
+    }
+
+    public class Comments
+    {
         
+        private List <Comment> comments = new List<Comment>();
+        
+        public void FromFile()
+        {
+            using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+            {
+                Comments comment = await JsonSerializer.DeserializeAsync<Comments>(fs);
+            }
+        }
+
         public void ShowComment()
         {
             
@@ -43,38 +56,29 @@ namespace WindowsFormsApp15
 
         public void AddComment()
         {
-            text = Form2.textBox1.Text;
-            date = DateTime.Now;
+            Comments newComment = new Comments();
+            // text = Form2.textBox1.Text;
+            // date = DateTime.Now;
+            comments.Add(newComment);
         }
-
-    }
-
-    public class Comments: Comment
-    {
-        public void FromFile()
-        {
-             using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
-             {
-                 Comment comment = await JsonSerializer.DeserializeAsync<Comment>(fs);
-             }
-        }
-
+        
         public void ToFile()
         {
-             using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
-             {
-                 Comment newComment = new Comment()
-                 {
-                    // date;
-                    // username;
-                    // userpic;
-                    // text;    
-                 }
-                 await JsonSerializer.SerializeAsync<Comment>(fs, newComment);
-             }
+            using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+            {
+                //Comments newComment = new Comments();
+                //{
+                // date;
+                // username;
+                // userpic;
+                // text;    
+                //}
+                await JsonSerializer.SerializeAsync<Comment>(fs, newComment);
+            }
         }
         
     }
+    
 
     public partial class Form2 : Form
     {
@@ -89,7 +93,6 @@ namespace WindowsFormsApp15
             pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.png");
             pictureBox2.Image = selectedImage;
             
-
             label1.Text = "Username";
             label1.Font = new Font("Century Gothic", 14.0F);
 
