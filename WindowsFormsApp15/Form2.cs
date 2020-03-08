@@ -7,9 +7,76 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Text.Json;
 
 namespace WindowsFormsApp15
 {
+
+    public class User
+    {
+        private string username;
+        private Image userpic;
+
+        public User(string username, Image userpic)
+        {
+            this.username = username;
+            this.userpic = userpic;
+        }
+    }
+
+    public class Comment: User
+    {
+        private DateTime date;
+        private string text;
+
+        public Comment(DateTime date, string text)
+        {
+            this.date = date;
+            this.text = text;
+        }
+        
+        public void ShowComment()
+        {
+            
+        }
+
+        public void AddComment()
+        {
+            text = Form2.textBox1.Text;
+            date = DateTime.Now;
+        }
+
+        
+    }
+
+    public class Comments: Comment
+    {
+        public void FromFile()
+        {
+             using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+             {
+                 Comment comment = await JsonSerializer.DeserializeAsync<Comment>(fs);
+             }
+        }
+
+        public void ToFile()
+        {
+             using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+             {
+                 Comment newComment = new Comment()
+                 {
+                    // date;
+                    // username;
+                    // userpic;
+                    // text;    
+                 }
+                 await JsonSerializer.SerializeAsync<Comment>(fs, newComment);
+             }
+        }
+        
+    }
+
     public partial class Form2 : Form
     {
         public Form2(Image selectedImage, string selectedImageName)
@@ -20,7 +87,7 @@ namespace WindowsFormsApp15
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.jpg");
+            pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.png");
             pictureBox2.Image = selectedImage;
             
 

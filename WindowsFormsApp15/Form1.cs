@@ -78,7 +78,7 @@ namespace WindowsFormsApp15
             label1.Text = "Username";
             label1.Font = new Font("Century Gothic", 14.0F);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.jpg");
+            pictureBox1.Image = Image.FromFile(@"C:\Users\Юлия\Desktop\algo\random\userpic.png");
 
         }
     }
