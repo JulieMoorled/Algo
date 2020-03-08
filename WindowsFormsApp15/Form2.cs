@@ -47,7 +47,6 @@ namespace WindowsFormsApp15
             date = DateTime.Now;
         }
 
-        
     }
 
     public class Comments: Comment
