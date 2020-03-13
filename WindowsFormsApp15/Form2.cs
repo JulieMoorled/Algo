@@ -11,13 +11,9 @@ using System.IO;
 using System.Text.Json;
 
 namespace WindowsFormsApp15
-{
-    
-    //pls
-
-    public class Comment
-    {
-        private DateTime date;
+{ 
+    public partial class Form2 : Form
+      {
         public class User
         {
             private string username; 
@@ -29,62 +25,70 @@ namespace WindowsFormsApp15
                 this.userpic = userpic;
             }
         }
-        private string text;
 
-        public Comment(DateTime date, string text)
+        public class Comment
         {
-            this.date = date;
-            this.text = text;
-        }
-    }
-    
+            private DateTime date;
+            private string text;
+            private User user;
 
-    public class Comments
-    {
-        
-        private List <Comment> comments = new List<Comment>();
-        
-        public void FromFile()
-        {
-            using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+            public Comment(string text, User user)
             {
-                Comments comment = await JsonSerializer.DeserializeAsync<Comments>(fs);
+                this.date = DateTime.Now;
+                this.text = text;
+                this.user = user;
             }
         }
+        
 
-        public void ShowComment()
+        public class CommentsManager
         {
             
-        }
-
-        public void AddComment()
-        {
-            Comments newComment = new Comments();
-            // text = Form2.textBox1.Text;
-            // date = DateTime.Now;
-            comments.Add(newComment);
-        }
-        
-        public void ToFile()
-        {
-            using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+            private List <Comment> comments = new List<Comment>();
+            
+            public void FromFile()
             {
-                //Comments newComment = new Comments();
-                //{
-                // date;
-                // username;
-                // userpic;
-                // text;    
-                //}
-                await JsonSerializer.SerializeAsync<Comment>(fs, newComment);
+                using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+                {
+                    CommentsManager comment = await JsonSerializer.DeserializeAsync<CommentsManager>(fs);
+                }
             }
-        }
-        
-    }
-    
 
-    public partial class Form2 : Form
-    {
+            public void ShowComment(int n, string text)
+            {
+                // ListView listView = new ListView();
+                // listView.Location = new Point(1, 1);
+                // this.Controls.Add(listView);
+                n = comments.Count + 1;
+                listView1.Items.Add(text, n);
+            }
+
+            public void AddComment()
+            {
+                string text = textBox1.Text;
+                User user = new User(label1.Text, pictureBox1.Image);
+                Comment newComment = new Comment(text, user);
+                comments.Add(newComment);
+                textBox1.Clear();
+            }
+            
+            public void ToFile()
+            {
+                using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
+                {
+                    //Comments newComment = new Comments();
+                    //{
+                    // date;
+                    // username;
+                    // userpic;
+                    // text;    
+                    //}
+                    await JsonSerializer.SerializeAsync<Comment>(fs, newComment);
+                }
+            }
+            
+        }
+    
         public Form2(Image selectedImage, string selectedImageName)
         {
 
@@ -105,5 +109,11 @@ namespace WindowsFormsApp15
         {
             throw new System.NotImplementedException();
         }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            
+        }
+        
     }
 }

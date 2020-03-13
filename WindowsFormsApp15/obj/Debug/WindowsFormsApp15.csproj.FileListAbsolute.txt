@@ -7,4 +7,4 @@ C:\Users\Юлия\source\repos\WindowsFormsApp15\WindowsFormsApp15\obj\Debug\Win
 C:\Users\Юлия\source\repos\WindowsFormsApp15\WindowsFormsApp15\obj\Debug\WindowsFormsApp15.csproj.GenerateResource.cache
 C:\Users\Юлия\source\repos\WindowsFormsApp15\WindowsFormsApp15\obj\Debug\WindowsFormsApp15.exe
 C:\Users\Юлия\source\repos\WindowsFormsApp15\WindowsFormsApp15\obj\Debug\WindowsFormsApp15.pdb
-C:\Users\Юлия\source\repos\WindowsFormsApp15\WindowsFormsApp15\obj\Debug\WindowsFormsApp15.Comments.resources
+C:\Users\Юлия\source\repos\WindowsFormsApp15\WindowsFormsApp15\obj\Debug\WindowsFormsApp15.User.resources
