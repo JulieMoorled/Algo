@@ -9,15 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WindowsFormsApp15
-{ 
-    public partial class Form2 : Form
-      {
-        public class User
+{
+    
+    public class User
         {
-            private string username; 
-            private Image userpic;
+            string _username;
+            Image _userpic;
+            
+            public string username { get; set; }
+            public Image userpic { get; set; }
 
             public User(string username, Image userpic)
             {
@@ -28,9 +32,13 @@ namespace WindowsFormsApp15
 
         public class Comment
         {
-            private DateTime date;
-            private string text;
-            private User user;
+            DateTime _date;
+            string _text;
+            User _user;
+            
+            public DateTime date { get; set; }
+            public string text { get; set; }
+            public User user { get; set; }
 
             public Comment(string text, User user)
             {
@@ -45,27 +53,11 @@ namespace WindowsFormsApp15
         {
             
             private List <Comment> comments = new List<Comment>();
+            string serialized;
             
-            public void FromFile()
-            {
-                using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
-                {
-                    CommentsManager comment = await JsonSerializer.DeserializeAsync<CommentsManager>(fs);
-                }
-            }
-
-            public void ShowComment(int n, string text)
-            {
-                // ListView listView = new ListView();
-                // listView.Location = new Point(1, 1);
-                // this.Controls.Add(listView);
-                n = comments.Count + 1;
-                listView1.Items.Add(text, n);
-            }
-
             public void AddComment()
             {
-                string text = textBox1.Text;
+                string text = textBox1;
                 User user = new User(label1.Text, pictureBox1.Image);
                 Comment newComment = new Comment(text, user);
                 comments.Add(newComment);
@@ -74,21 +66,38 @@ namespace WindowsFormsApp15
             
             public void ToFile()
             {
-                using (FileStream fs = new FileStream(@"C:\Users\Юлия\Desktop\algo\file.json", FileMode.OpenOrCreate))
-                {
-                    //Comments newComment = new Comments();
-                    //{
-                    // date;
-                    // username;
-                    // userpic;
-                    // text;    
-                    //}
-                    await JsonSerializer.SerializeAsync<Comment>(fs, newComment);
-                }
+                Comment comment = new Comment(text, user);
+                serialized = JsonConvert.SerializeObject(comment);
+                File.WriteAllText(@"C:\Users\Юлия\Desktop\algo\random\userpic.png", serialized, Encoding.GetEncoding(1251));
             }
             
+            public void FromFile()
+            {
+                serialized = File.ReadAllText(@"C:\Users\Юлия\Desktop\algo\file.json", Encoding.GetEncoding(1251));
+                dynamic json = JObject.Parse(serialized);
+                date = json.Comments[0].Date;
+                text = json.Comments[0].Text;
+                user = json.Comments[0].User;
+                    //что-то нужно сделать с юзером (
+                    //и поменять индексы кста
+            }
+
+            public void ShowComment(int n, string text)
+            {
+                n = comments.Count;
+                listView1.Items.Add(text, n);
+            }
+
         }
     
+    public partial class Form2 : Form 
+      {
+        
+          public string getTextBox()
+          {
+            return textBox1.Text;
+          }
+          
         public Form2(Image selectedImage, string selectedImageName)
         {
 

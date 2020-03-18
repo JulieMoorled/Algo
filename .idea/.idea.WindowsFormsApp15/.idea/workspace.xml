@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="50fa0e5c-d602-4158-9eee-d2750f16570d" name="Default Changelist" comment="" />
+    <list default="true" id="50fa0e5c-d602-4158-9eee-d2750f16570d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WindowsFormsApp15/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WindowsFormsApp15/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WindowsFormsApp15/.idea/.idea.WindowsFormsApp15.dir/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WindowsFormsApp15/.idea/.idea.WindowsFormsApp15.dir/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WindowsFormsApp15/Form2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WindowsFormsApp15/Form2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WindowsFormsApp15/WindowsFormsApp15.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WindowsFormsApp15/WindowsFormsApp15.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WindowsFormsApp15/obj/Debug/WindowsFormsApp15.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WindowsFormsApp15/obj/Debug/WindowsFormsApp15.csprojAssemblyReference.cache" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +41,9 @@
       <updated>1583188515604</updated>
       <workItem from="1583188796246" duration="18000" />
       <workItem from="1583189929704" duration="753000" />
+      <workItem from="1584527533368" duration="18000" />
+      <workItem from="1584528128644" duration="18000" />
+      <workItem from="1584549319287" duration="15000" />
     </task>
     <servers />
   </component>
