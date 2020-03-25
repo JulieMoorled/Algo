@@ -47,26 +47,21 @@ namespace WindowsFormsApp15
                 this.user = user;
             }
         }
-        
 
         public class CommentsManager
         {
             
-            private List <Comment> comments = new List<Comment>();
-            string serialized;
-            
-            public void AddComment()
+            public List <Comment> comment { get; set; }
+
+            public CommentsManager(List <Comment> comment)
             {
-                string text = textBox1;
-                User user = new User(label1.Text, pictureBox1.Image);
-                Comment newComment = new Comment(text, user);
-                comments.Add(newComment);
-                textBox1.Clear();
+                this.comment = comment;
             }
+            
+            string serialized;
             
             public void ToFile()
             {
-                Comment comment = new Comment(text, user);
                 serialized = JsonConvert.SerializeObject(comment);
                 File.WriteAllText(@"C:\Users\Юлия\Desktop\algo\random\userpic.png", serialized, Encoding.GetEncoding(1251));
             }
@@ -75,30 +70,40 @@ namespace WindowsFormsApp15
             {
                 serialized = File.ReadAllText(@"C:\Users\Юлия\Desktop\algo\file.json", Encoding.GetEncoding(1251));
                 dynamic json = JObject.Parse(serialized);
-                date = json.Comments[0].Date;
-                text = json.Comments[0].Text;
-                user = json.Comments[0].User;
-                    //что-то нужно сделать с юзером (
-                    //и поменять индексы кста
-            }
-
-            public void ShowComment(int n, string text)
-            {
-                n = comments.Count;
-                listView1.Items.Add(text, n);
+                for (int i = 0; i < comment.Count; i++)
+                {
+                    comment[i].date = json.Comments[i].Date;
+                    comment[i].text = json.Comments[i].Text;
+                    comment[i].user = json.Comments[i].User;
+                }
+                //что-то нужно сделать с юзером (
             }
 
         }
     
     public partial class Form2 : Form 
       {
+          
+          public List <Comment> comments = new List<Comment>();
         
-          public string getTextBox()
+          public void AddComment()
           {
-            return textBox1.Text;
+              string text = textBox1.Text;
+              User user = new User(label1.Text, pictureBox1.Image);
+              Comment newComment = new Comment(text, user);
+              comments.Add(newComment);
+              textBox1.Clear();
           }
           
-        public Form2(Image selectedImage, string selectedImageName)
+          public void ShowComment(string text, DateTime date)
+          {
+              int n = comments.Count;
+              string newComment = text + date;
+              listView1.Items.Add(text, n);
+              //подумоц
+          }
+
+          public Form2(Image selectedImage, string selectedImageName)
         {
 
             InitializeComponent();
@@ -121,8 +126,22 @@ namespace WindowsFormsApp15
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            
+            AddComment();
+            // CommentsManager newComments = new CommentsManager(comments);
+            // ShowComment();
         }
-        
-    }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            //throw new System.NotImplementedException();
+            CommentsManager newComments = new CommentsManager(comments);
+            for (int i = 0; i < comments.Count; i++)
+                
+            {
+                string commentText[] = comments.text[i];
+                //DateTime commentDate[] = 
+                ShowComment(commentText[i]);
+            }
+        }
+      }
 }
