@@ -93,7 +93,6 @@ namespace WindowsFormsApp15
                 }
 
             }
-
         }
         
         public class CommentView
