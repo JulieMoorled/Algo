@@ -17,11 +17,9 @@ namespace WindowsFormsApp15
     
     public class User
         {
-            string _username;
-            Image _userpic;
-            
-            public string username { get; set; }
-            public Image userpic { get; set; }
+
+            public string username;
+            public Image userpic;
 
             public User(string username, Image userpic)
             {
@@ -32,13 +30,10 @@ namespace WindowsFormsApp15
 
         public class Comment
         {
-            DateTime _date;
-            string _text;
-            User _user;
-            
-            public DateTime date { get; set; }
-            public string text { get; set; }
-            public User user { get; set; }
+
+            public DateTime date;
+            public string text;
+            public User user;
 
             public Comment(string text, User user)
             {
@@ -50,19 +45,19 @@ namespace WindowsFormsApp15
 
         public class CommentsManager
         {
-            
-            public List <Comment> comment { get; set; }
 
-            public CommentsManager(List <Comment> comment)
+            public List<Comment> comments;
+
+            public CommentsManager(List <Comment> comments)
             {
-                this.comment = comment;
+                this.comments = comments;
             }
             
             string serialized;
             
             public void ToFile()
             {
-                serialized = JsonConvert.SerializeObject(comment);
+                serialized = JsonConvert.SerializeObject(comments);
                 File.WriteAllText(@"C:\Users\Юлия\Desktop\algo\random\userpic.png", serialized, Encoding.GetEncoding(1251));
             }
             
@@ -70,15 +65,73 @@ namespace WindowsFormsApp15
             {
                 serialized = File.ReadAllText(@"C:\Users\Юлия\Desktop\algo\file.json", Encoding.GetEncoding(1251));
                 dynamic json = JObject.Parse(serialized);
-                for (int i = 0; i < comment.Count; i++)
+                for (int i = 0; i < comments.Count; i++)
                 {
-                    comment[i].date = json.Comments[i].Date;
-                    comment[i].text = json.Comments[i].Text;
-                    comment[i].user = json.Comments[i].User;
+                    comments[i].date = json.Comments[i].Date;
+                    comments[i].text = json.Comments[i].Text;
+                    comments[i].user.username = json.Comments[i].User.Username;
+                    comments[i].user.userpic = json.Comments[i].User.Userpic;
                 }
-                //что-то нужно сделать с юзером (
+            }
+        }
+    
+        public class CommentsViewManager
+        {
+            public List<CommentView> commentViews;
+
+            public CommentsViewManager(List <CommentView> commentViews)
+            {
+                this.commentViews = commentViews;
             }
 
+            Panel commentsPanel = new Panel();
+
+            public void deleteCommentView()
+            {
+                
+            }
+            
+        }
+        
+        public class CommentView
+        {
+            public Label username;
+            public PictureBox userpic;
+            public Label text;
+
+            public CommentView(Comment comment)
+            {
+                username.Text = comment.user.username;
+                userpic.Image = comment.user.userpic;
+                text.Text = comment.text;
+            }
+            
+            public void addCommentView()
+            {
+                
+                Panel commentPanel = new Panel();
+                commentPanel.Location = new Point();
+                commentPanel.Size = new System.Drawing.Size(150, 40);
+                Form2.Controls.Add(commentPanel);
+                
+                Label username = new Label();
+                username.Location = new Point(50, 2);
+                username.Font = new Font("Century Gothic", 07.0F);
+                commentPanel.Controls.Add(username);
+                
+                PictureBox userpic = new PictureBox();
+                userpic.Location = new Point(5, 5);
+                userpic.Size = new System.Drawing.Size(30, 30);
+                userpic.SizeMode = PictureBoxSizeMode.StretchImage;
+                commentPanel.Controls.Add(userpic);
+                
+                Label text = new Label();
+                text.Location = new Point(50, 19);
+                text.Font = new Font("Century Gothic", 09.0F);
+                commentPanel.Controls.Add(text);
+                
+            }
+            
         }
     
     public partial class Form2 : Form 
@@ -95,12 +148,9 @@ namespace WindowsFormsApp15
               textBox1.Clear();
           }
           
-          public void ShowComment(string text, DateTime date)
+          public void ShowComment()
           {
-              int n = comments.Count;
-              string newComment = text + date;
-              listView1.Items.Add(text, n);
-              //подумоц
+              
           }
 
           public Form2(Image selectedImage, string selectedImageName)
@@ -119,12 +169,7 @@ namespace WindowsFormsApp15
 
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private void button1_Click(object sender, System.EventArgs e)
+          private void button1_Click(object sender, System.EventArgs e)
         {
             AddComment();
             // CommentsManager newComments = new CommentsManager(comments);
@@ -135,13 +180,12 @@ namespace WindowsFormsApp15
         {
             //throw new System.NotImplementedException();
             CommentsManager newComments = new CommentsManager(comments);
-            for (int i = 0; i < comments.Count; i++)
-                
-            {
-                string commentText[] = comments.text[i];
-                //DateTime commentDate[] = 
-                ShowComment(commentText[i]);
-            }
+            // for (int i = 0; i < comments.Count; i++)
+            // {
+            //     string[] commentText = comments[i].text;
+            //     DateTime[] commentDate = comments[i].date;
+            //     ShowComment(commentText[i], commentDate[i]);
+            // }
         }
       }
 }
