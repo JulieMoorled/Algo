@@ -78,23 +78,27 @@ namespace WindowsFormsApp15
         public class CommentsViewManager
         {
             public List<CommentView> commentViews;
+            public Panel commentsPanel;
 
-            public CommentsViewManager(List <CommentView> commentViews)
+            public CommentsViewManager(List <Comment> comments)
             {
-                this.commentViews = commentViews;
-            }
-
-            Panel commentsPanel = new Panel();
-
-            public void deleteCommentView()
-            {
+                commentsPanel.Location = new Point(446, 103);
+                commentsPanel.Size = new System.Drawing.Size(160, 350);
+                Form2.ActiveForm.Controls.Add(commentsPanel);
                 
+                for (int i = 0; i < comments.Count; i++)
+                {
+                    CommentView commentView = new CommentView(comments[i]);
+                    commentViews.Add(commentView);
+                }
+
             }
-            
+
         }
         
         public class CommentView
         {
+            public Panel commentPanel;
             public Label username;
             public PictureBox userpic;
             public Label text;
@@ -104,34 +108,25 @@ namespace WindowsFormsApp15
                 username.Text = comment.user.username;
                 userpic.Image = comment.user.userpic;
                 text.Text = comment.text;
-            }
-            
-            public void addCommentView()
-            {
                 
-                Panel commentPanel = new Panel();
-                commentPanel.Location = new Point();
+                commentPanel.Location = new Point(5, 5);
                 commentPanel.Size = new System.Drawing.Size(150, 40);
-                Form2.Controls.Add(commentPanel);
+                this.commentsPanel.Controls.Add(commentPanel);
                 
-                Label username = new Label();
                 username.Location = new Point(50, 2);
                 username.Font = new Font("Century Gothic", 07.0F);
                 commentPanel.Controls.Add(username);
                 
-                PictureBox userpic = new PictureBox();
                 userpic.Location = new Point(5, 5);
                 userpic.Size = new System.Drawing.Size(30, 30);
                 userpic.SizeMode = PictureBoxSizeMode.StretchImage;
                 commentPanel.Controls.Add(userpic);
                 
-                Label text = new Label();
                 text.Location = new Point(50, 19);
                 text.Font = new Font("Century Gothic", 09.0F);
                 commentPanel.Controls.Add(text);
-                
             }
-            
+
         }
     
     public partial class Form2 : Form 
