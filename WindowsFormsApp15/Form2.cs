@@ -131,9 +131,7 @@ namespace WindowsFormsApp15
                     commentViews.Add(commentView);
                     commentsPanel.Controls.Add(commentView.commentPanel);
                 }
-                
             }
-            
         }
         
         
