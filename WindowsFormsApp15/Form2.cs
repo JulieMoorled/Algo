@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Text.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,10 +20,10 @@ namespace WindowsFormsApp15
             public string username;
             public Image userpic;
 
-            public User(string username, Image userpic)
+            public User(string username, string userpicPath)
             {
                 this.username = username;
-                this.userpic = userpic;
+                this.userpic = Image.FromFile(userpicPath);
             }
         }
 
@@ -58,7 +57,7 @@ namespace WindowsFormsApp15
             public void ToFile()
             {
                 serialized = JsonConvert.SerializeObject(comments);
-                File.WriteAllText(@"C:\Users\Юлия\Desktop\algo\random\userpic.png", serialized, Encoding.GetEncoding(1251));
+                File.WriteAllText(@"C:\Users\Юлия\Desktop\algo\file.json", serialized, Encoding.GetEncoding(1251));
             }
             
             public void FromFile()
@@ -75,27 +74,6 @@ namespace WindowsFormsApp15
             }
         }
     
-        public class CommentsViewManager
-        {
-            public List<CommentView> commentViews;
-            public Panel commentsPanel;
-
-            public CommentsViewManager(List <Comment> comments)
-            {
-                commentsPanel.Location = new Point(446, 103);
-                commentsPanel.Size = new System.Drawing.Size(160, 350);
-                Form2.ActiveForm.Controls.Add(commentsPanel);
-                
-                for (int i = 0; i < comments.Count; i++)
-                {
-                    CommentView commentView = new CommentView(comments[i]);
-                    commentViews.Add(commentView);
-                }
-
-            }
-            
-        }
-        
         public class CommentView
         {
             public Panel commentPanel;
@@ -103,15 +81,21 @@ namespace WindowsFormsApp15
             public PictureBox userpic;
             public Label text;
 
-            public CommentView(Comment comment)
+            public CommentView(Comment comment, List <Comment> comments)
             {
                 username.Text = comment.user.username;
                 userpic.Image = comment.user.userpic;
                 text.Text = comment.text;
                 
-                commentPanel.Location = new Point(5, 5);
+                int firstPoint = 0;
+
+                 for (int i = 0; i < comments.Count; i++)
+                 {
+                     commentPanel.Location = new Point(5, firstPoint + 5);
+                     firstPoint += 40;
+                 }
+
                 commentPanel.Size = new System.Drawing.Size(150, 40);
-                this.commentsPanel.Controls.Add(commentPanel);
                 
                 username.Location = new Point(50, 2);
                 username.Font = new Font("Century Gothic", 07.0F);
@@ -128,6 +112,31 @@ namespace WindowsFormsApp15
             }
 
         }
+        
+        public class CommentsViewManager
+        {
+            public List<CommentView> commentViews;
+            public Panel commentsPanel;
+
+            public CommentsViewManager(List <Comment> comments)
+            {
+                commentsPanel.Location = new Point(446, 103);
+                commentsPanel.Size = new System.Drawing.Size(160, 350);
+                commentsPanel.AutoScroll = true;
+                Form2.ActiveForm.Controls.Add(commentsPanel);
+                
+                for (int i = 0; i < comments.Count; i++)
+                {
+                    CommentView commentView = new CommentView(comments[i], comments);
+                    commentViews.Add(commentView);
+                    commentsPanel.Controls.Add(commentView.commentPanel);
+                }
+                
+            }
+            
+        }
+        
+        
     
     public partial class Form2 : Form 
       {
@@ -137,15 +146,11 @@ namespace WindowsFormsApp15
           public void AddComment()
           {
               string text = textBox1.Text;
-              User user = new User(label1.Text, pictureBox1.Image);
-              Comment newComment = new Comment(text, user);
-              comments.Add(newComment);
+              User user = new User(label1.Text, pictureBox1.ImageLocation);
+              Comment comment = new Comment(text, user);
+              comments.Add(comment);
+              CommentsViewManager c = new CommentsViewManager(comments);
               textBox1.Clear();
-          }
-          
-          public void ShowComment()
-          {
-              
           }
 
           public Form2(Image selectedImage, string selectedImageName)
@@ -162,25 +167,19 @@ namespace WindowsFormsApp15
             label1.Text = "Username";
             label1.Font = new Font("Century Gothic", 14.0F);
 
+            CommentsManager commentsFromBd = new CommentsManager(comments);
+            CommentsViewManager allfcknComments = new CommentsViewManager(comments);
+            
         }
 
           private void button1_Click(object sender, System.EventArgs e)
         {
             AddComment();
-            // CommentsManager newComments = new CommentsManager(comments);
-            // ShowComment();
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
             //throw new System.NotImplementedException();
-            CommentsManager newComments = new CommentsManager(comments);
-            // for (int i = 0; i < comments.Count; i++)
-            // {
-            //     string[] commentText = comments[i].text;
-            //     DateTime[] commentDate = comments[i].date;
-            //     ShowComment(commentText[i], commentDate[i]);
-            // }
         }
       }
 }
