@@ -46,31 +46,43 @@ namespace WindowsFormsApp15
         {
 
             public List<Comment> comments;
+            private string path;
+            public string fileName;
 
-            public CommentsManager(List <Comment> comments)
+            public CommentsManager(List <Comment> comments, string selectedImageName)
             {
                 this.comments = comments;
+                this.fileName = selectedImageName;
+                path = @"C:\Users\Юлия\Desktop\algo\images\" + fileName + ".json";
+                FromFile();
             }
+
             
             string serialized;
             
-            public void ToFile()
+            private void ToFile()
             {
                 serialized = JsonConvert.SerializeObject(comments);
-                File.WriteAllText(@"C:\Users\Юлия\Desktop\algo\file.json", serialized, Encoding.GetEncoding(1251));
+                File.WriteAllText(path, serialized, Encoding.GetEncoding(1251));
             }
             
-            public void FromFile()
+            private void FromFile()
             {
-                serialized = File.ReadAllText(@"C:\Users\Юлия\Desktop\algo\file.json", Encoding.GetEncoding(1251));
+                serialized = File.ReadAllText(path, Encoding.GetEncoding(1251));
                 dynamic json = JObject.Parse(serialized);
-                for (int i = 0; i < comments.Count; i++)
+                for (int i = 0; i < json.Count; i++)
                 {
                     comments[i].date = json.Comments[i].Date;
                     comments[i].text = json.Comments[i].Text;
                     comments[i].user.username = json.Comments[i].User.Username;
                     comments[i].user.userpic = json.Comments[i].User.Userpic;
                 }
+            }
+
+            private void AddComment(Comment comment)
+            {
+                comments.Add(comment);
+                ToFile();
             }
         }
     
@@ -165,8 +177,8 @@ namespace WindowsFormsApp15
             label1.Text = "Username";
             label1.Font = new Font("Century Gothic", 14.0F);
 
-            CommentsManager commentsFromBd = new CommentsManager(comments);
-            CommentsViewManager allfcknComments = new CommentsViewManager(comments);
+            CommentsManager commentsFromBd = new CommentsManager(comments, selectedImageName);
+            CommentsViewManager allComments = new CommentsViewManager(comments);
             
         }
 

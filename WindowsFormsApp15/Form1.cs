@@ -21,7 +21,8 @@ namespace WindowsFormsApp15
             string[] imageFileNames = Directory.GetFiles(path, "*.jpg", SearchOption.AllDirectories);
             for (int i = 0; i < imageFileNames.Length; i++)
             {
-               string fileName = Path.GetFileName(imageFileNames[i]);
+               string[] filePath = (Path.GetFileName(imageFileNames[i])).Split('.');
+               string fileName = filePath[0];
                Image image = Image.FromFile(imageFileNames[i]);
                (string, Image) tuple = (fileName, image);
                imagesAndPaths.Add(tuple);
