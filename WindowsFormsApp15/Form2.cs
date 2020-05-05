@@ -20,9 +20,10 @@ namespace WindowsFormsApp15
             public string username;
             public Image userpic;
 
-            public User(string username, string userpicPath)
+            public User(string username, string userpicName)
             {
                 this.username = username;
+                string userpicPath = @"C:\Users\Юлия\Desktop\algo\random\" + userpicName + ".png";
                 this.userpic = Image.FromFile(userpicPath);
             }
         }
